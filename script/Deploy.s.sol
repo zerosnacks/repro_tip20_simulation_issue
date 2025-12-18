@@ -11,12 +11,10 @@ contract DeployScript is Script {
     function setUp() public {}
 
     function run() public {
-        console.log(type(uint256).max);
-
         vm.startBroadcast();
 
         // Simple vault that accepts deposits and withdrawals of any ERC20
-        // Vault v = new Vault(msg.sender);
+        Vault v = new Vault(msg.sender);
 
         // #1 Works without issue (regular ERC20 token)
         // TTT ttt = new TTT(msg.sender);
@@ -26,9 +24,9 @@ contract DeployScript is Script {
         // v.withdrawTokens(address(ttt), 500_000e18);
 
         // #2 Only works with --skip-simulation
-        // StdTokens.ALPHA_USD.approve(address(v), type(uint256).max);
-        // v.depositTokens(address(StdTokens.ALPHA_USD), 1);
-        // v.withdrawTokens(address(StdTokens.ALPHA_USD), 1);
+        StdTokens.ALPHA_USD.approve(address(v), type(uint256).max);
+        v.depositTokens(address(StdTokens.ALPHA_USD), 1);
+        v.withdrawTokens(address(StdTokens.ALPHA_USD), 1);
 
         vm.stopBroadcast();
     }
